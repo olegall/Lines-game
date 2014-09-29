@@ -1,0 +1,36 @@
+.clear{
+    clear:both;
+}
+
+body{
+	font-family: Arial;
+}
+
+h1{
+	margin-top: 100px;
+	text-align: center;
+}
+
+
+.field{
+	margin: 0 auto;
+	width: 420px;
+	background: #D2D2D2;
+}
+
+.field div:not([class="clear"]){
+	float: left;
+	width: 40px;
+	height: 40px;
+	margin-left: 3px;
+	margin-bottom: 3px;
+	border: 1px solid grey;
+	
+}
+
+img {
+	float: left;
+	width: 40px;
+	height: 40px;
+	border: 1px solid grey;
+}
