@@ -1,34 +1,13 @@
-﻿
-
-
-
-
-
-
-
-$(window).ready(function(){
-	
-
-	
-	
-	
+﻿$(window).ready(function(){
 	function promptBall(position){
 		this.position = position;
 	}	
 	promptBall.prototype.src = "";
 	
-	
-	
-	
 	function ball(){
-
 	}
 	
 	ball.prototype = Object.create(promptBall.prototype);
-
-
-	
-	
 	
 	function Field() {
 	}
@@ -37,12 +16,9 @@ $(window).ready(function(){
 	var lineLength = 5;
 	var ballInLineIndex;
 	
-	
 	var createdBallsNum = 5;
 	var balls = new Array(createdBallsNum);
 	var promptBalls = new Array(createdBallsNum);	
-	
-
 	
 	var i1;
 	var emptyCellsIndexes;
@@ -50,22 +26,11 @@ $(window).ready(function(){
 	var randomPromptBallNum;
 	var images = ["blue.jpg", "green.jpg", "red.jpg", "sea.jpg", "violet.jpg", "yellow.jpg"];
 	var promptImages = ["prompt_blue.jpg", "prompt_green.jpg", "prompt_red.jpg", "prompt_sea.jpg", "prompt_violet.jpg", "prompt_yellow.jpg"];	
-
-
-
-	
 	
 	Field.prototype.createRandomBalls = function(){
-
-		
-	
 		var cellsNum = $("img").length;
 		var ballsNum = images.length - 1;
-		
 		var srcs = new Array($("img").length);		
-		
-
-		
 		var sign;
 		for (var i=0; i<$("img").length; i++){
 			if ($("img:eq("+i+")").attr("src") == undefined){
@@ -75,12 +40,9 @@ $(window).ready(function(){
 				break;
 			}
 		}
-
 		
 		for (i1=0; i1<createdBallsNum; i1++){
-		
 			emptyCellsIndexes = new Array();
-			
 			for (var i=0; i<$("img").length; i++){
 				if ($("img:eq("+i+")").attr("src") == undefined){
 					emptyCellsIndexes.push(i);
@@ -89,7 +51,6 @@ $(window).ready(function(){
 			}		
 			var randomCellNum = Math.floor(Math.random() * (emptyCellsIndexes.length));
 			var randomBallNum = Math.floor(Math.random() * (ballsNum + 1));
-
 			for (var i=0; i<$("img").length; i++){
 				if ($("img:eq("+i+")").attr("src") == undefined){
 					emptyCellsIndexes.push(i);
@@ -97,35 +58,22 @@ $(window).ready(function(){
 			}
 			randomPromptCellNum = Math.floor(Math.random() * (emptyCellsIndexes.length));
 			randomPromptBallNum = Math.floor(Math.random() * (ballsNum + 1));
-			
 			delete emptyCellsIndexes;
 			
-			
-			
 			if (sign == "fieldIsEmpty"){
-
 				$("img:eq("+emptyCellsIndexes[randomCellNum]+")").attr("src", "images/"+images[randomBallNum]);				
 				$("img:eq("+emptyCellsIndexes[randomPromptCellNum]+")").attr("src", "images/"+promptImages[randomPromptBallNum]);
-
 				createBallInstance();
-				
 			} else {
-
 				$("img:eq("+balls[i1].position+")").attr("src", balls[i1].src);
-				
 				createBallInstance();				
-				
 				$("img:eq("+promptBalls[i1].position+")").attr("src", promptBalls[i1].src);
 			}
-
 		}
-
-		
 		field.checkIfLose();
 	}
 
 	Field.prototype.checkIfLose = function(){
-
 		var checkSign = null;
 		for (var i=0; i<$("img").length; i++){
 			if ($("img:eq("+i+")").attr("src") == undefined){
@@ -138,27 +86,17 @@ $(window).ready(function(){
 		}	
 	}
 	
-	
-	
-	
-	
 	function createBallInstance(){
-
 		promptBalls[i1] = new promptBall(emptyCellsIndexes[randomPromptCellNum]);
 		promptBalls[i1].src = "images/"+promptImages[randomPromptBallNum];
-
 		balls[i1] = new ball();
 		balls[i1].src = "images/"+images[randomPromptBallNum];	
 		balls[i1].position = promptBalls[i1].position;
 	}
 
-	
-	
 	Field.prototype.moveBall = function(event){
-
 		var grey 	= "1px solid rgb(128, 128, 128)";
 		var red 	= "1px solid rgb(255, 0, 0)";
-		
 
 		if ($(event.target).attr("src") != "images/"+promptImages[0] && 
 		    $(event.target).attr("src") != "images/"+promptImages[1] && 
@@ -168,12 +106,9 @@ $(window).ready(function(){
 		    $(event.target).attr("src") != "images/"+promptImages[5] && 
 		    $(event.target).attr("src") != undefined)
 		{																	// клик по шару
-			
 
 			// блок формирования пути
-			
 			$("img").attr("class", "undefined");	// перед выбором шара очищаем поле от классов
-			
 			for (var i=0; i<$("img").length; i++){
 				if ($("img").eq(i).attr("src") == "images/"+images[0] ||
 					$("img").eq(i).attr("src") == "images/"+images[1] ||
@@ -187,12 +122,8 @@ $(window).ready(function(){
 			}
 			
 			$(event.target).attr("class","ball");
-			
 			var undefinedBefore = $(".undefined").length;
-			
 			field.circleCell($(event.target),$(event.target).index("img"));
-			
-
 			
 			for (;;)
 			{
@@ -210,24 +141,14 @@ $(window).ready(function(){
 						field.circleCell($(event.target), i);
 					}
 				}
-				
-				
 				if ($(".undefined").length == undefinedBefore){
 					break;
 				}
-				
 				undefinedBefore = $(".undefined").length;
 			}
-			
 			// конец блока формирования пути
 			
-			
-			
-			
-			
-			
 			var i = $(event.target).index();
-			
 			if ($(event.target).css("border") == grey){ 
 				$("img").css("border","1px solid grey");
 				$(event.target).css("border","1px solid red");
@@ -237,7 +158,6 @@ $(window).ready(function(){
 			if ($(event.target).css("border") == red){
 				$(event.target).css("border","1px solid grey");			
 			}
-			
 		} 
 		else 
 		if ($(event.target).attr("src") != "images/"+promptImages[0] && 
@@ -246,15 +166,10 @@ $(window).ready(function(){
 		    $(event.target).attr("src") != "images/"+promptImages[3] && 
 		    $(event.target).attr("src") != "images/"+promptImages[4] && 
 		    $(event.target).attr("src") != "images/"+promptImages[5]) 
-		    
 		{																	// клик по пустому месту и не по шару-превью
-			
-			
 			if ($(event.target).attr("class") == "undefined"){
 				return;
 			}
-			
-
 			$("img").each(function(index) {
 				if ($(this).css("border") == red){
 
@@ -265,8 +180,6 @@ $(window).ready(function(){
 					return;
 				}
 			});
-			
-	
 			if (field.deleteIfLine(event, "horizontal")){
 				return;
 			}
@@ -284,10 +197,8 @@ $(window).ready(function(){
 			}
 		}
 	}
-	
 
 	Field.prototype.circleCell = function (cellInside, cellInsideIndex){
-		
 		// ячейка на границе сверху
 		if (cellInsideIndex == 1 || cellInsideIndex == 2 ||	cellInsideIndex == 3 ||					
 			cellInsideIndex == 4 || cellInsideIndex == 5 ||	cellInsideIndex == 6 ||					
@@ -362,8 +273,6 @@ $(window).ready(function(){
 		}
 	}
 	
-
-	
 	Field.prototype.putPathStep = function(cellInside, cellInsideIndex, direction){
 		var shift;
 		switch (direction) {
@@ -381,7 +290,6 @@ $(window).ready(function(){
 			break;	
 		}
 		
-		
 		if ($("img").eq(cellInsideIndex+shift).attr("src") != "images/"+images[0] &&
 			$("img").eq(cellInsideIndex+shift).attr("src") != "images/"+images[1] &&
 			$("img").eq(cellInsideIndex+shift).attr("src") != "images/"+images[2] &&
@@ -392,15 +300,8 @@ $(window).ready(function(){
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
 	Field.prototype.deleteIfLine = function(event, lineType){
 		var shift;
-
 		switch (lineType) {
 			case "horizontal": 
 				shift = 1;
@@ -417,7 +318,6 @@ $(window).ready(function(){
 			default:
 				;
 		}
-		
 		
 		ballInLineIndex = $(event.target).index("img");
 		var movedBall = $("img:eq("+ballInLineIndex+")").attr("src");
@@ -438,8 +338,6 @@ $(window).ready(function(){
 		}		
 		// пришли к началу линии
 		
-		
-		
 		// есть 5 одинаковых шариков?
 		var lineBeginsIndex = ballInLineIndex;
 		
@@ -450,26 +348,17 @@ $(window).ready(function(){
 			}
 		}
 		
-		
 		// удаляем линию
 		for (ballInLineIndex; ballInLineIndex>lineBeginsIndex-lineLength; ballInLineIndex-=shift){
 			$("img:eq(" + ballInLineIndex + ")").removeAttr("src");
 		}
-		
 		return 1;
 	}
 	
 	var field = new Field();
-	
-
 	field.createRandomBalls();
 	
-	
-	
 	$("img").click(function(event) {
-		
 		field.moveBall(event);
 	});
-	
-	
 });
